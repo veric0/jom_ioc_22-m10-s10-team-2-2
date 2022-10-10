@@ -21,6 +21,8 @@ public class Application {
                 "levis@gmail.com","HranFrye");
         User user3 = new User("Nastia","Balushak",
                 "Balus2000@gmail.com","1223Hdk");
+
+
     }
 
 }
