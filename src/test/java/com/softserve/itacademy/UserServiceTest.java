@@ -334,27 +334,4 @@ public class UserServiceTest {
         assertEquals(expectedList.size(), actualList.size(), "check list size");
         assertEquals(expectedList, actualList, "check get all users");
     }
-
-    @DisplayName("Check get all with duplicated users")
-    @Test
-    public void checkGetAllDuplicated() {
-        User user1 = new User("Fredek", "Snooks", "fsnooks0@businesswire.com", "NzgOWl8");
-        User user2 = new User("Lon", "Castille", "lcastille8@cyberchimps.com", "HBUKq7");
-        User user3 = new User("Tabbi", "Enden", "tenden2@purevolume.com", "WjDrbGyn1R");
-        userService.addUser(user1);
-        userService.addUser(user2);
-        userService.addUser(user2);
-        userService.addUser(user1);
-        userService.addUser(user2);
-        userService.addUser(user3);
-        userService.addUser(user1);
-        List<User> expectedList = new ArrayList<>(3);
-        expectedList.add(new User("Fredek", "Snooks", "fsnooks0@businesswire.com", "NzgOWl8"));
-        expectedList.add(new User("Lon", "Castille", "lcastille8@cyberchimps.com", "HBUKq7"));
-        expectedList.add(new User("Tabbi", "Enden", "tenden2@purevolume.com", "WjDrbGyn1R"));
-        List<User> actualList = userService.getAll();
-        assertNotNull(actualList, "check list is not null");
-        assertEquals(expectedList.size(), actualList.size(), "check list size");
-        assertEquals(expectedList, actualList, "check get all users");
-    }
 }
