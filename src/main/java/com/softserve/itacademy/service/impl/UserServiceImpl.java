@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(User user) {
 
-        if (nullCheck(user)) throw new RuntimeException(user + " has a null parameter");
+        if (nullCheck(user)) throw new IllegalArgumentException(user + " has a null parameter");
 
         boolean exist = users.stream()
                 .filter(user1 -> user1.getEmail().equals(user.getEmail()))
@@ -30,10 +30,10 @@ public class UserServiceImpl implements UserService {
 
 
         if(!isValidEmailAddress(user.getEmail()))
-            throw new RuntimeException(user.getEmail() + " - is invalid");
+            throw new IllegalArgumentException(user.getEmail() + " - is invalid");
 
         if (exist){
-            throw new RuntimeException(user.getEmail()+" - user already exist");
+            throw new IllegalArgumentException(user.getEmail()+" - user already exist");
         }else {
             users.add(user);
             return user;
@@ -42,14 +42,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        if (nullCheck(user)) throw new RuntimeException(user + " has a null parameter");
+        if (nullCheck(user)) throw new IllegalArgumentException(user + " has a null parameter");
 
         User userOriginal = users.stream()
                 .filter(user1 -> user1.getEmail().equals(user.getEmail()))
                 .findFirst().orElse(null);
 
         if (userOriginal == null){
-            throw new RuntimeException(user.getEmail()+" - user not found");
+            throw new IllegalArgumentException(user.getEmail()+" - user not found");
         }else {
             users.set(users.indexOf(userOriginal), user);
             return user;
@@ -60,10 +60,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(User user) {
-        if (nullCheck(user)) throw new RuntimeException(user + " has a null parameter");
+        if (nullCheck(user)) throw new IllegalArgumentException(user + " has a null parameter");
 
         if (users.indexOf(user)==-1)
-            throw new RuntimeException(user.getEmail()+" - user not found");
+            throw new IllegalArgumentException(user.getEmail()+" - user not found");
         else
             users.remove(user);
     }
