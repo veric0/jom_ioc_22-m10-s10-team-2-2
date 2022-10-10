@@ -15,6 +15,7 @@ import com.softserve.itacademy.model.User;
 import com.softserve.itacademy.service.UserService;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
@@ -30,7 +31,7 @@ public class UserServiceTest {
     private static UserService userService;
 
     @BeforeAll
-    public static void setupBeforeClass() throws Exception {
+    public static void setupBeforeClass() {
         AnnotationConfigApplicationContext annotationConfigContext = new AnnotationConfigApplicationContext(Config.class);
         userService = annotationConfigContext.getBean(UserService.class);
         annotationConfigContext.close();
@@ -59,7 +60,7 @@ public class UserServiceTest {
             assertEquals(userServiceImplClassName, clazz.getSimpleName());
             assertTrue(!Modifier.isAbstract(clazz.getModifiers()) && !Modifier.isInterface(clazz.getModifiers()));
             Class<?>[] interfaces = clazz.getInterfaces();
-            assertTrue(interfaces.length == 1, "Check there is only 1 implemented interface");
+            assertEquals(1, interfaces.length, "Check there is only 1 implemented interface");
             assertEquals(interfaces[0].getSimpleName(), userServiceInterfaceName, "Check if implemented interface is " + userServiceInterfaceName);
         } catch (ClassNotFoundException e) {
             fail("There is no class " + userServiceImplClassName);
@@ -96,7 +97,22 @@ public class UserServiceTest {
         } catch (NoSuchMethodException e) {
             fail("Interface do not have method " + methodName + " with given parameters");
         }
+    }
 
+    @DisplayName("Check that fields is present")
+    @Test
+    void isFieldPresent() {
+        String fieldName = "users";
+        try {
+            Class<?> clazz = Class.forName(PACKAGE + "impl." + userServiceImplClassName);
+            Field field = clazz.getDeclaredField(fieldName);
+            assertTrue(Modifier.isPrivate(field.getModifiers()), "Is field private");
+            assertEquals(List.class, field.getType(), "Invalid field type");
+        } catch (ClassNotFoundException e) {
+            fail("There is no class " + userServiceImplClassName);
+        } catch (NoSuchFieldException e) {
+            fail("There is no field " + fieldName);
+        }
     }
 
     private static Stream<Arguments> listMethods() {
