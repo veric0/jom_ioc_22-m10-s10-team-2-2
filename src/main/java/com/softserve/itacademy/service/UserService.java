@@ -6,11 +6,11 @@ import com.softserve.itacademy.model.User;
 
 public interface UserService {
     
-    User addUser(User user);
+    User addUser(User user) throws IllegalArgumentException ;
 
-    User updateUser(User user);
+    User updateUser(User user) throws IllegalArgumentException ;
 
-    void deleteUser(User user);
+    void deleteUser(User user) throws IllegalArgumentException ;
 
     List<User> getAll();
 
