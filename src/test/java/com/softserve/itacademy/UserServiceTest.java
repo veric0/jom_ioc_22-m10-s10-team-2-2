@@ -245,20 +245,23 @@ public class UserServiceTest {
         assertEquals(expectedList, actualList, "check all users");
     }
 
-    public void updateUser() {
-        User user2 =  new User("Amy","Eller","AmyREller@jourrapide.com","ku4ye5ieHiegh");
-        User user3 =  new User("David","Ybarra","DavidYbarra@gmail.com","Aimohp9ree");
-
-        userService.addUser(user2);
-        userService.addUser(user3);
-
-        //change the password
-        User userUpadte =  new User("Amy","Eller","AmyREller@jourrapide.com","qwerty123");
-
-        User expected = new User("Amy","Eller","AmyREller@jourrapide.com","qwerty123");
-        User actual = userService.updateUser(userUpadte);
-
-        Assertions.assertEquals(expected, actual, "the user isn't updated");
+    @DisplayName("Check update user password")
+    @Test
+    public void checkUpdatePassword() {
+        User user1 = new User("Fredek", "Snooks", "fsnooks0@businesswire.com", "NzgOWl8");
+        User user2 = new User("Fredek", "Snooks", "fsnooks0@businesswire.com", "WZzRoJ");
+        User user3 = new User("Fredek", "Snooks", "fsnooks0@businesswire.com", "JZpmD");
+        User user5 = new User("Fredek", "Snooks", "fsnooks0@businesswire.com", null);
+        User expected = new User("Fredek", "Barker", "fsnooks0@businesswire.com", "WZzRoJ");
+        userService.addUser(user1);
+        User actual = userService.updateUser(user2);
+        assertEquals(expected, actual, "check update user password");
+        assertThrows(IllegalArgumentException.class, () -> userService.updateUser(user3), "check update short password");
+        assertThrows(IllegalArgumentException.class, () -> userService.updateUser(user5), "check update null password");
+        List<User> expectedList = new ArrayList<>(1);
+        expectedList.add(expected);
+        List<User> actualList = userService.getAll();
+        assertEquals(expectedList, actualList, "check all users");
     }
 
     @DisplayName("Check update in empty list")
