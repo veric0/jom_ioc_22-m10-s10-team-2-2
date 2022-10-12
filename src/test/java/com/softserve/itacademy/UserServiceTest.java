@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Random data from <a href="https://www.mockaroo.com/">mockaroo</a>
+ * @author Dmytro Borak
  */
 @RunWith(JUnitPlatform.class)
 public class UserServiceTest {
